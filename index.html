@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Avay Bhandari</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  /* Layout idea: deep navy hero with a wave-interference graphic, then white pages with a gold accent rule. Single theme. */
+  :root {
+    --navy: #13233f;
+    --navy-2: #1c3358;
+    --gold: #f2b134;
+    --ink: #172033;
+    --muted: #5b6577;
+    --paper: #ffffff;
+    --mist: #eef2f7;
+    --line: #dde3ec;
+    --display: "Sora", "Segoe UI", Arial, sans-serif;
+    --body: "Source Sans 3", "Segoe UI", Arial, sans-serif;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { font-family: var(--body); font-size: 17px; color: var(--ink); background: var(--paper); line-height: 1.6; }
+  h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
+  a { color: var(--navy-2); }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+
+  /* Nav */
+  .nav { position: sticky; top: 0; z-index: 20; background: var(--navy); border-bottom: 1px solid rgba(255,255,255,.08); }
+  .nav-inner { max-width: 1080px; margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .brand { font-family: var(--display); font-weight: 700; color: #fff; font-size: 17px; letter-spacing: .2px; display: flex; align-items: center; gap: 10px; }
+  .brand .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 4px rgba(242,177,52,.18); }
+  .links { display: flex; gap: 6px; flex-wrap: wrap; }
+  .links a { color: #c9d5e8; text-decoration: none; font-weight: 600; font-size: 15px; padding: 8px 14px; border-radius: 999px; }
+  .links a:hover { color: #fff; background: rgba(255,255,255,.07); }
+  .links a.active { color: var(--navy); background: var(--gold); }
+
+  /* Hero */
+  .hero { position: relative; background: var(--navy); color: #fff; overflow: hidden; }
+  .hero canvas, .page-hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .hero-inner { position: relative; max-width: 1080px; margin: 0 auto; padding: 72px 24px 80px; display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; align-items: center; }
+  .eyebrow { font-family: var(--display); font-size: 13px; font-weight: 600; letter-spacing: 1.6px; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+  .hero h1 { font-size: 56px; line-height: 1.05; margin-bottom: 18px; }
+  .hero p { font-size: 19px; color: #d3dcea; max-width: 34em; margin: 0 0 28px; }
+  .cta { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn { display: inline-block; font-family: var(--display); font-weight: 600; font-size: 15px; text-decoration: none; padding: 12px 22px; border-radius: 8px; border: 2px solid transparent; }
+  .btn.gold { background: var(--gold); color: var(--navy); }
+  .btn.ghost { border-color: rgba(255,255,255,.45); color: #fff; }
+  .btn.navy { background: var(--navy); color: #fff; }
+  .portrait img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }
+  .portrait { overflow: hidden; justify-self: center; width: 280px; height: 280px; border-radius: 50%; background: linear-gradient(160deg, #2a4570, #1a2d4d); border: 6px solid var(--gold); display: flex; align-items: center; justify-content: center; text-align: center; color: #9fb2cf; font-size: 15px; box-shadow: 0 20px 50px rgba(0,0,0,.35); }
+
+  .page-hero { position: relative; background: var(--navy); color: #fff; overflow: hidden; }
+  .page-hero .hero-inner { display: block; padding: 56px 24px 52px; }
+  .page-hero h1 { font-size: 42px; }
+  .page-hero p { color: #d3dcea; margin: 10px 0 0; font-size: 18px; max-width: 40em; }
+
+  /* Body */
+  main { max-width: 1080px; margin: 0 auto; padding: 56px 24px 88px; display: grid; gap: 64px; }
+  .label { font-family: var(--display); font-size: 13px; font-weight: 600; letter-spacing: 1.6px; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  h2 { font-size: 30px; color: var(--navy); }
+  .rule { width: 56px; height: 4px; background: var(--gold); border-radius: 2px; margin: 14px 0 24px; }
+
+  /* Stats */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: -104px; position: relative; z-index: 2; }
+  .stat { background: var(--paper); border-radius: 14px; padding: 22px 22px 20px; box-shadow: 0 10px 30px rgba(19,35,63,.12); border-top: 4px solid var(--gold); }
+  .stat .num { font-family: var(--display); font-weight: 700; font-size: 30px; color: var(--navy); font-variant-numeric: tabular-nums; line-height: 1.15; }
+  .stat .num small { font-size: 16px; color: var(--muted); font-weight: 600; }
+  .stat .cap { font-size: 15px; color: var(--muted); margin-top: 6px; line-height: 1.4; }
+
+  .about { display: grid; grid-template-columns: 1fr 2fr; gap: 48px; }
+  .about p { margin: 0 0 16px; max-width: 62ch; }
+
+  /* Experience timeline */
+  .timeline { display: grid; gap: 0; border-left: 3px solid var(--line); margin-left: 6px; }
+  .item { position: relative; padding: 0 0 32px 32px; }
+  .item:last-child { padding-bottom: 0; }
+  .item::before { content: ""; position: absolute; left: -10px; top: 6px; width: 17px; height: 17px; border-radius: 50%; background: var(--paper); border: 4px solid var(--gold); }
+  .item h3 { font-size: 20px; color: var(--navy); }
+  .when { font-size: 15px; color: var(--muted); font-weight: 600; margin: 2px 0 8px; }
+  .item ul { margin: 0; padding-left: 20px; max-width: 70ch; }
+  .item li { margin-bottom: 6px; }
+
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 10px; }
+  .tag { background: var(--mist); color: var(--navy-2); border-radius: 999px; padding: 6px 14px; font-size: 15px; font-weight: 600; }
+
+  /* Work samples */
+  .feature { display: grid; grid-template-columns: 1.2fr 1fr; gap: 0; border-radius: 16px; overflow: hidden; box-shadow: 0 12px 36px rgba(19,35,63,.12); border: 1px solid var(--line); }
+  .deck { background: var(--navy); padding: 32px; display: flex; align-items: center; justify-content: center; }
+  .cover { width: 100%; display: block; border-radius: 8px; box-shadow: 0 10px 24px rgba(0,0,0,.3); }
+  .slide { width: 100%; aspect-ratio: 16 / 9; background: #fff; border-radius: 8px; padding: 22px 24px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 10px 24px rgba(0,0,0,.3); }
+  .slide .s-title { font-family: var(--display); font-weight: 700; color: var(--navy); font-size: 20px; }
+  .slide .s-sub { color: var(--muted); font-size: 13px; }
+  .bars { display: flex; align-items: flex-end; gap: 22px; height: 46%; }
+  .bar { flex: 1; border-radius: 4px 4px 0 0; position: relative; }
+  .bar span { position: absolute; top: -22px; left: 0; right: 0; text-align: center; font-family: var(--display); font-weight: 700; font-size: 14px; color: var(--navy); }
+  .bar em { position: absolute; bottom: -20px; left: 0; right: 0; text-align: center; font-style: normal; font-size: 12px; color: var(--muted); }
+  .feature .body { padding: 32px 32px 34px; background: var(--paper); }
+  .feature h3 { font-size: 24px; color: var(--navy); margin-bottom: 4px; }
+  .feature p { margin: 14px 0 0; }
+
+  .next { background: var(--mist); border-radius: 16px; padding: 32px; border: 1px dashed #b9c5d8; }
+  .next h3 { font-size: 22px; color: var(--navy); }
+  .next ul { margin: 14px 0 0; padding-left: 20px; }
+  .next li { margin-bottom: 8px; }
+
+  .resume-img { display: block; width: 100%; max-width: 820px; margin: 28px auto 0; border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 12px 36px rgba(19,35,63,.12); }
+  .pdf { width: 100%; border-radius: 16px; border: 1px solid var(--line); background: var(--mist); height: 900px; }
+
+  footer { background: var(--navy); color: #9fb2cf; text-align: center; padding: 28px 24px; font-size: 15px; }
+  footer strong { color: #fff; font-family: var(--display); }
+
+  /* Build notes */
+  .note { display: none; background: #fff6dc; border-left: 4px solid var(--gold); color: #4d3a00; font-size: 14.5px; padding: 10px 14px; border-radius: 4px; margin-top: 16px; position: relative; z-index: 3; }
+  body.show-notes .note { display: block; }
+  .toggle { position: fixed; right: 18px; bottom: 18px; z-index: 30; font-family: var(--display); font-weight: 600; font-size: 13px; background: var(--paper); color: var(--navy); border: 2px solid var(--navy); border-radius: 999px; padding: 9px 16px; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,.18); }
+  body.show-notes .toggle { background: var(--navy); color: #fff; }
+
+  .page { display: none; }
+  .page.active { display: block; }
+
+  @media (max-width: 860px) {
+    .hero-inner { grid-template-columns: 1fr; padding: 48px 20px 120px; }
+    .hero h1 { font-size: 42px; }
+    .portrait { width: 200px; height: 200px; order: -1; justify-self: start; }
+    .stats { grid-template-columns: 1fr 1fr; margin-top: -88px; }
+    .about, .two, .feature { grid-template-columns: 1fr; gap: 28px; }
+    .nav-inner { height: auto; padding: 10px 16px; flex-wrap: wrap; }
+    main { padding: 40px 18px 72px; }
+  }
+  @media (max-width: 420px) { .stats { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="brand"><span class="dot"></span>Avay Bhandari</div>
+    <nav class="links">
+      <a href="#home" data-page="home">Home</a>
+      <a href="#experience" data-page="experience">Experience</a>
+      <a href="#work-samples" data-page="work-samples">Work Samples</a>
+      <a href="#resume" data-page="resume">Resume</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HOME -->
+<div class="page" id="page-home">
+  <section class="hero">
+    <canvas class="waves"></canvas>
+    <div class="hero-inner">
+      <div>
+        <div class="eyebrow">University of Maryland · Class of 2030</div>
+        <h1>Avay Bhandari</h1>
+        <p>Applied Math and Computer Science student working toward quantum computing and machine learning. Looking for Summer 2027 internships.</p>
+        <div class="cta">
+          <a class="btn gold" href="#resume">View Resume</a>
+          <a class="btn ghost" href="mailto:avayb@terpmail.umd.edu">avayb@terpmail.umd.edu</a>
+        </div>
+      </div>
+      <div class="portrait"><img src="headshot.jpg" alt="Avay Bhandari"></div>
+    </div>
+  </section>
+
+  <main>
+    <div>
+      <div class="stats">
+        <div class="stat"><div class="num">38.18% <small>vs 3.41%</small></div><div class="cap">My DECA fund's return against the S&amp;P 500</div></div>
+        <div class="stat"><div class="num">100% <small>vs 73%</small></div><div class="cap">My tutoring method against a traditional lesson</div></div>
+        <div class="stat"><div class="num">3+ years</div><div class="cap">Weekly English tutoring through ENGin</div></div>
+        <div class="stat"><div class="num">Treasurer</div><div class="cap">Newly formed UMD Poker Club</div></div>
+      </div>
+    </div>
+
+    <section class="about">
+      <div>
+        <div class="label">About</div>
+        <h2>Who I am</h2>
+        <div class="rule"></div>
+      </div>
+      <div>
+        <p>I'm an Applied Math major at UMD working toward a second major in Computer Science. I want to work on quantum computing and machine learning, mainly the algorithm and software side.</p>
+        <p>In high school I ran a simulated stock fund for DECA. I built my own system for picking stocks, and the fund returned 38.18% while the S&amp;P 500 returned 3.41%. That made me Pennsylvania's only Stock Market Game qualifier at the international conference, where I had to pitch the fund to judges and defend every pick.</p>
+        <p>Since 2022 I've tutored a student in Ukraine in English through ENGin. When her mom thought our anime-based lessons were a distraction, I ran a test: two topics, two methods. The traditional lesson got a 73%. The anime lesson got a 100%. I kept teaching my way.</p>
+        <p>At UMD I'm in the Undergraduate Quantum Association and the Maryland Debate Society. I'm also treasurer of a newly formed poker club.</p>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- EXPERIENCE -->
+<div class="page" id="page-experience">
+  <section class="page-hero">
+    <canvas class="waves"></canvas>
+    <div class="hero-inner">
+      <div class="eyebrow">Experience</div>
+      <h1>What I've been doing</h1>
+      <p>Roles and volunteering, newest first.</p>
+    </div>
+  </section>
+  <main>
+    <section>
+      <div class="label">Experience and leadership</div>
+      <h2>Roles</h2>
+      <div class="rule"></div>
+      <div class="timeline">
+        <div class="item">
+          <h3>Treasurer, Poker Club</h3>
+          <div class="when">University of Maryland · Fall 2026 to Present</div>
+          <ul><li>Founding treasurer of a newly formed student club</li></ul>
+        </div>
+        <div class="item">
+          <h3>Debater, Maryland Debate Society</h3>
+          <div class="when">University of Maryland · Sept 2026 to Present</div>
+          <ul>
+            <li>Accepted early as a novice on the APDA parliamentary debate circuit</li>
+            <li>Practice twice a week and compete in at least two tournaments per semester</li>
+          </ul>
+        </div>
+        <div class="item">
+          <h3>Stock Market Game Competitor, DECA</h3>
+          <div class="when">2025 to 2026</div>
+          <ul>
+            <li>Ran simulated fund Keystone Catalyst Capital to a 38.18% return while the S&amp;P 500 returned 3.41%</li>
+            <li>Qualified as Pennsylvania's only Stock Market Game competitor at the International Career Development Conference</li>
+            <li>Built a stock-picking framework and pitched it to judges at ICDC</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="label">Volunteering</div>
+      <h2>Giving time</h2>
+      <div class="rule"></div>
+      <div class="timeline">
+        <div class="item">
+          <h3>Volunteer English Tutor, ENGin</h3>
+          <div class="when">2022 to Present</div>
+          <ul>
+            <li>Teach a student in Ukraine one-on-one every week; she's now at an advanced level</li>
+            <li>Switched to anime-based lessons when lectures stopped working. When her mom pushed back, tested both methods on two topics: traditional scored 73%, anime scored 100%</li>
+            <li>Shifted lessons to film analysis and discussion once she reached an advanced level</li>
+          </ul>
+        </div>
+        <div class="item">
+          <h3>Event Volunteer, Quantum Career Fair</h3>
+          <div class="when">Undergraduate Quantum Association · Sept 2026</div>
+          <ul><li>Guided and assisted attendees throughout the fair at Stamp Student Union</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="two">
+      <div>
+        <div class="label">Education</div>
+        <h2>University of Maryland</h2>
+        <div class="rule"></div>
+        <p style="margin:0 0 6px"><strong>B.S. Applied Mathematics</strong>, expected May 2030</p>
+        <p style="margin:0 0 6px">Planned second major in Computer Science; planned minor in Business</p>
+        <p style="margin:0">Undergraduate Quantum Association · Maryland Debate Society · Poker Club · DJ and Producer Club</p>
+      </div>
+      <div>
+        <div class="label">Coursework and skills</div>
+        <h2>Toolkit</h2>
+        <div class="rule"></div>
+        <div class="tags">
+          <span class="tag">CMSC 131: OOP I</span>
+          <span class="tag">MATH 241: Calculus III</span>
+          <span class="tag">COMM 107: Oral Communication</span>
+          <span class="tag">COMM 488I: Strategic Interviewing</span>
+          <span class="tag">Java</span>
+          <span class="tag">Multivariable Calculus</span>
+          <span class="tag">Quantitative Analysis</span>
+          <span class="tag">Public Speaking</span>
+          <span class="tag">Debate</span>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- WORK SAMPLES -->
+<div class="page" id="page-work-samples">
+  <section class="page-hero">
+    <canvas class="waves"></canvas>
+    <div class="hero-inner">
+      <div class="eyebrow">Work Samples</div>
+      <h1>Selected work</h1>
+      <p>One finished piece, and what I'm building next.</p>
+    </div>
+  </section>
+  <main>
+    <article class="feature">
+      <div class="deck">
+        <a href="deck.pdf" target="_blank" rel="noopener"><img class="cover" src="deck-cover.jpg" alt="Cover slide of the Keystone Catalyst Capital pitch deck"></a>
+      </div>
+      <div class="body">
+        <div class="label">Pitch deck</div>
+        <h3>Keystone Catalyst Capital</h3>
+        <div class="when">DECA International Career Development Conference</div>
+        <p>The pitch deck for the simulated fund I ran for DECA's Stock Market Game. It returned 38.18% while the S&amp;P 500 returned 3.41%. I built the stock-picking framework and used this deck to pitch it to judges at ICDC and answer their questions live.</p>
+        <p><a class="btn navy" href="deck.pdf" target="_blank" rel="noopener">Open the pitch deck (PDF)</a></p>
+      </div>
+    </article>
+
+    <section class="next">
+      <div class="label">In progress</div>
+      <h3>What I'm building next</h3>
+      <ul>
+        <li>A quantum algorithm project in Python and Qiskit, built over winter break and posted with a full write-up</li>
+        <li>A new GitHub profile to host it and the projects that follow</li>
+      </ul>
+    </section>
+  </main>
+</div>
+
+<!-- RESUME -->
+<div class="page" id="page-resume">
+  <section class="page-hero">
+    <canvas class="waves"></canvas>
+    <div class="hero-inner">
+      <div class="eyebrow">Resume</div>
+      <h1>Resume</h1>
+      <p>Updated November 2026.</p>
+    </div>
+  </section>
+  <main>
+    <div style="display:flex;justify-content:center"><a class="btn navy" href="resume.pdf" target="_blank" rel="noopener">Download resume (PDF)</a></div>
+    <a href="resume.pdf" target="_blank" rel="noopener"><img class="resume-img" src="resume.png" alt="Avay Bhandari resume"></a>
+  </main>
+</div>
+
+<footer><strong>Avay Bhandari</strong> · Applied Mathematics, University of Maryland · avayb@terpmail.umd.edu</footer>
+
+<script>
+  // Page routing
+  const pages = ["home", "experience", "work-samples", "resume"];
+  function show() {
+    let id = (location.hash || "#home").slice(1);
+    if (!pages.includes(id)) id = "home";
+    pages.forEach(p => document.getElementById("page-" + p).classList.toggle("active", p === id));
+    document.querySelectorAll(".links a").forEach(a => a.classList.toggle("active", a.dataset.page === id));
+    window.scrollTo(0, 0);
+    drawAll();
+  }
+
+  // Wave interference graphic: lines of constant phase from two point sources
+  function drawWaves(c) {
+    const r = c.getBoundingClientRect();
+    if (!r.width) return;
+    const dpr = window.devicePixelRatio || 1;
+    c.width = r.width * dpr; c.height = r.height * dpr;
+    const g = c.getContext("2d");
+    g.scale(dpr, dpr);
+    const W = r.width, H = r.height;
+    const lines = 26;
+    for (let i = 0; i < lines; i++) {
+      const t = i / (lines - 1);
+      const base = H * (0.08 + 0.9 * t);
+      g.beginPath();
+      for (let x = 0; x <= W; x += 4) {
+        const u = x / W;
+        const env = Math.exp(-Math.pow((u - 0.78) / 0.32, 2));
+        const y = base + 26 * env * Math.sin(u * 14 + t * 6.2) + 10 * env * Math.sin(u * 31 - t * 3.1);
+        x === 0 ? g.moveTo(x, y) : g.lineTo(x, y);
+      }
+      const gold = i % 5 === 2;
+      g.strokeStyle = gold ? "rgba(242,177,52,0.55)" : "rgba(160,190,230," + (0.10 + 0.12 * Math.sin(t * Math.PI)) + ")";
+      g.lineWidth = gold ? 1.6 : 1;
+      g.stroke();
+    }
+  }
+  function drawAll() { document.querySelectorAll(".page.active canvas.waves").forEach(drawWaves); }
+
+  window.addEventListener("hashchange", show);
+  window.addEventListener("resize", drawAll);
+  show();
+
+</script>
+</body>
+</html>
